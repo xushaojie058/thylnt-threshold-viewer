@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -82,42 +82,42 @@ canvas { width:100%; height:380px; display:block; }
 </head>
 <body>
 <main>
-<div class="topbar"><h1>ThyLNT <span data-i18n="title">多中心阈值分析</span></h1><div class="language" aria-label="Language"><button id="lang-zh" type="button" aria-pressed="true">中文</button><button id="lang-en" type="button" aria-pressed="false">English</button></div></div>
-<p class="sub" data-i18n="subtitle">病理淋巴结转移 · 内部验证集及五个外部中心</p>
-<div class="tabs" role="tablist" aria-label="Analysis population"><button type="button" role="tab" id="tab-all" aria-selected="true" data-i18n="allTab">模型表现：全部患者</button><button type="button" role="tab" id="tab-cn0" aria-selected="false" data-i18n="cn0Tab">cN0：判断后果</button><button type="button" role="tab" id="tab-ptmc" aria-selected="false" data-i18n="ptmcTab">微小PTC：阈值分析</button></div>
-<div class="cohort-toolbar"><div class="cohort-field"><label for="cohort-select" data-i18n="cohortLabel">展示中心</label><select id="cohort-select"></select></div><button type="button" class="command" id="reset-threshold" data-i18n="reset">恢复训练集阈值（0.685）</button></div>
+<div class="topbar"><h1>ThyLNT <span data-i18n="title">Multicenter Threshold Analysis</span></h1><div class="language" aria-label="Language"><button id="lang-zh" type="button" aria-pressed="false">中文</button><button id="lang-en" type="button" aria-pressed="true">English</button></div></div>
+<p class="sub" data-i18n="subtitle">Pathologic nodal metastasis · Internal validation and five external centers</p>
+<div class="tabs" role="tablist" aria-label="Analysis population"><button type="button" role="tab" id="tab-all" aria-selected="true" data-i18n="allTab">Model performance: all patients</button><button type="button" role="tab" id="tab-cn0" aria-selected="false" data-i18n="cn0Tab">cN0: decision consequences</button><button type="button" role="tab" id="tab-ptmc" aria-selected="false" data-i18n="ptmcTab">PTMC: threshold analysis</button></div>
+<div class="cohort-toolbar"><div class="cohort-field"><label for="cohort-select" data-i18n="cohortLabel">Displayed cohort</label><select id="cohort-select"></select></div><button type="button" class="command" id="reset-threshold" data-i18n="reset">Restore training threshold (0.685)</button></div>
 <p class="cohort-summary" id="cohort-summary"></p>
 <p class="cohort-detail" id="cohort-detail"></p>
-<p class="small-note" id="small-note" hidden data-i18n="smallNote">该亚组样本量较小，请结合人数及置信区间解读。</p>
+<p class="small-note" id="small-note" hidden data-i18n="smallNote">Small subgroup: interpret estimates alongside sample sizes and confidence intervals.</p>
 <section class="panel">
   <div class="controls">
     <div class="slider-wrap">
-      <input id="slider" type="range" min="0" max="10000" step="1" value="9863" aria-label="调整ThyLNT判断阈值，分段非线性刻度" aria-describedby="scale-note">
+      <input id="slider" type="range" min="0" max="10000" step="1" value="9863" aria-label="ThyLNT raw-score threshold" aria-describedby="scale-note">
       <div class="slider-ticks" aria-hidden="true"><span style="left:0%">0</span><span style="left:25%">0.001</span><span style="left:50%">0.01</span><span style="left:75%">0.1</span><span style="left:100%">1</span></div>
     </div>
-    <input id="number" type="number" min="0" max="1" step="any" value="0.685" aria-label="输入ThyLNT判断阈值">
+    <input id="number" type="number" min="0" max="1" step="any" value="0.685" aria-label="ThyLNT raw-score threshold">
   </div>
-  <div class="value"><span data-i18n="thresholdLabel">原始分数阈值</span> <span id="shown" aria-live="polite">0.685</span></div>
-  <p class="scale-note" id="scale-note" data-i18n="scaleNote">分段刻度：0–0.001为线性；0.001–1为对数，此段每个大格代表阈值扩大10倍。训练集参考阈值为0.68457896。</p>
-  <div class="legend"><span class="key"><i class="swatch" style="background:#2f6fb0"></i><span data-i18n="sensLegend">敏感度（左轴）</span></span><span class="key"><i class="swatch" style="background:#3aae9f"></i><span data-i18n="specLegend">特异度（左轴）</span></span><span class="key"><i class="swatch" style="background:#c84b43"></i><span data-i18n="missLegend">漏判转移（右轴）</span></span><span class="key"><i class="swatch dashed"></i><span data-i18n="fpLegend">病理阴性误判为阳性（右轴）</span></span></div>
-  <canvas id="plot" width="1000" height="380" aria-label="不同阈值下的敏感度、特异度，以及每100例患者中的漏判和误判人数">不同阈值下的结果见下方数值。</canvas>
+  <div class="value"><span data-i18n="thresholdLabel">Raw-score threshold</span> <span id="shown" aria-live="polite">0.685</span></div>
+  <p class="scale-note" id="scale-note" data-i18n="scaleNote">Piecewise scale: linear from 0 to 0.001; logarithmic from 0.001 to 1, with a tenfold increase per major interval. The gray dashed line marks the training threshold, 0.68457896.</p>
+  <div class="legend"><span class="key"><i class="swatch" style="background:#2f6fb0"></i><span data-i18n="sensLegend">Sensitivity (left)</span></span><span class="key"><i class="swatch" style="background:#3aae9f"></i><span data-i18n="specLegend">Specificity (left)</span></span><span class="key"><i class="swatch" style="background:#c84b43"></i><span data-i18n="missLegend">Missed LNM (right)</span></span><span class="key"><i class="swatch dashed"></i><span data-i18n="fpLegend">False positives (right)</span></span></div>
+  <canvas id="plot" width="1000" height="380" aria-label="Sensitivity, specificity, missed LNM, and false positives across thresholds">Numerical results are provided in the metrics and comparison table below.</canvas>
   <div class="metrics">
-    <div class="metric blue"><small data-i18n="sensitivity">敏感度</small><strong id="sens">--</strong><small data-i18n="sensHelp">有转移者中检出的比例</small><small class="interval" id="sensci"></small></div>
-    <div class="metric teal"><small data-i18n="specificity">特异度</small><strong id="spec">--</strong><small data-i18n="specHelp">无转移者中正确判为阴性的比例</small><small class="interval" id="specci"></small></div>
-    <div class="metric blue"><small data-i18n="accuracy">准确率</small><strong id="accuracy">--</strong><small data-i18n="accuracyHelp">全部患者中判断正确的比例</small><small class="interval" id="accuracyci"></small></div>
-    <div class="metric gray"><small>ROC AUC</small><strong id="auc">--</strong><small data-i18n="aucHelp">整体区分能力，不随阈值变化</small><small class="interval" id="aucci"></small></div>
-    <div class="metric blue"><small data-i18n="ppv">阳性预测值（PPV）</small><strong id="ppv">--</strong><small data-i18n="ppvHelp">判为阳性者中实际有转移的比例</small><small class="interval" id="ppvci"></small></div>
-    <div class="metric teal"><small data-i18n="npv">阴性预测值（NPV）</small><strong id="npv">--</strong><small data-i18n="npvHelp">判为阴性者中实际无转移的比例</small><small class="interval" id="npvci"></small></div>
-    <div class="metric red"><small data-i18n="missed">漏判转移（每100例）</small><strong id="missed">--</strong><small id="missed-count"></small><small class="interval" id="missedci"></small></div>
-    <div class="metric red"><small data-i18n="falsePositive">病理阴性误判为阳性（每100例）</small><strong id="fp">--</strong><small id="fp-count"></small><small class="interval" id="fpci"></small></div>
-    <div class="metric red"><small data-i18n="fnrTitle">病理阳性中的漏诊比例</small><strong id="fnr">--</strong><small id="fnr-count"></small><small class="interval" id="fnrci"></small></div>
-    <div class="metric red"><small data-i18n="fprTitle">病理阴性中的误判阳性比例</small><strong id="fpr">--</strong><small id="fpr-count"></small><small class="interval" id="fprci"></small></div>
+    <div class="metric blue"><small data-i18n="sensitivity">Sensitivity</small><strong id="sens">--</strong><small data-i18n="sensHelp">Proportion detected among patients with LNM</small><small class="interval" id="sensci"></small></div>
+    <div class="metric teal"><small data-i18n="specificity">Specificity</small><strong id="spec">--</strong><small data-i18n="specHelp">Proportion correctly negative among patients without LNM</small><small class="interval" id="specci"></small></div>
+    <div class="metric blue"><small data-i18n="accuracy">Accuracy</small><strong id="accuracy">--</strong><small data-i18n="accuracyHelp">Proportion classified correctly among all patients</small><small class="interval" id="accuracyci"></small></div>
+    <div class="metric gray"><small>ROC AUC</small><strong id="auc">--</strong><small data-i18n="aucHelp">Discrimination; independent of the selected threshold</small><small class="interval" id="aucci"></small></div>
+    <div class="metric blue"><small data-i18n="ppv">Positive predictive value (PPV)</small><strong id="ppv">--</strong><small data-i18n="ppvHelp">Proportion with LNM among positive predictions</small><small class="interval" id="ppvci"></small></div>
+    <div class="metric teal"><small data-i18n="npv">Negative predictive value (NPV)</small><strong id="npv">--</strong><small data-i18n="npvHelp">Proportion without LNM among negative predictions</small><small class="interval" id="npvci"></small></div>
+    <div class="metric red"><small data-i18n="missed">Missed LNM per 100 patients</small><strong id="missed">--</strong><small id="missed-count"></small><small class="interval" id="missedci"></small></div>
+    <div class="metric red"><small data-i18n="falsePositive">False positives per 100 patients</small><strong id="fp">--</strong><small id="fp-count"></small><small class="interval" id="fpci"></small></div>
+    <div class="metric red"><small data-i18n="fnrTitle">Missed fraction among pathologic positives</small><strong id="fnr">--</strong><small id="fnr-count"></small><small class="interval" id="fnrci"></small></div>
+    <div class="metric red"><small data-i18n="fprTitle">False-positive fraction among pathologic negatives</small><strong id="fpr">--</strong><small id="fpr-count"></small><small class="interval" id="fprci"></small></div>
   </div>
   <p class="foot" id="consequence-note"></p>
-  <div class="section-heading"><h2 data-i18n="comparisonTitle">六中心 · 同一阈值对照</h2></div>
-  <p class="section-note" data-i18n="comparisonNote">各中心均使用上方同一阈值；小字为95%置信区间。合并行不包含训练集。</p>
+  <div class="section-heading"><h2 data-i18n="comparisonTitle">Six centers at the same threshold</h2></div>
+  <p class="section-note" data-i18n="comparisonNote">Every cohort uses the threshold above. Smaller values show 95% confidence intervals. Training patients are excluded from the pooled row.</p>
   <div class="table-scroll" tabindex="0" aria-label="Center comparison"><table id="cohort-table"><thead></thead><tbody></tbody></table></div>
-  <details class="methods"><summary data-i18n="methodsTitle">分析方法与研究边界</summary><div id="methods-body"></div></details>
+  <details class="methods"><summary data-i18n="methodsTitle">Analysis methods and scope</summary><div id="methods-body"></div></details>
   <p class="version" id="version"></p>
 </section>
 </main>
@@ -169,7 +169,7 @@ const select=document.getElementById('cohort-select');
 const colors={sens:'#2f6fb0',spec:'#3aae9f',outcome:'#c84b43',axis:'#334155',grid:'#e5eaf0'};
 const ticks=[0,.001,.01,.1,1];
 const requestedLanguage=new URL(location.href).searchParams.get('lang');
-let language=requestedLanguage==='en' || requestedLanguage==='zh' ? requestedLanguage : location.protocol==='file:' ? 'zh' : 'en';
+let language=requestedLanguage==='en' || requestedLanguage==='zh' ? requestedLanguage : 'en';
 let population='all', selection={all:'val',cn0:'pooled',ptmc:'pooled'}, currentThreshold=dashboard.referenceThreshold;
 let dataset, data;
 const tr=key=>copy[language][key];
